@@ -1,0 +1,49 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+build/
+.npm/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs / runtime
+*.log
+logs/
+cache/
+tmp/
+
+# Local databases / volumes
+*.db
+*.sqlite
+*.sqlite3
+postgres_data/
+neo4j_data/
+redis_data/
+
+# OCR / raw documents
+ocr_input/
+ocr_output/
+uploads/
+raw_documents/
