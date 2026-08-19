@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-horseintel}
+      POSTGRES_USER: ${POSTGRES_USER:-horseintel}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    volumes: [postgres-data:/var/lib/postgresql/data]
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redis-data:/data]
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-change-me-now}
+    ports: ["7474:7474", "7687:7687"]
+    volumes: [neo4j-data:/data]
+  api:
+    build: ./backend
+    env_file: .env
+    ports: ["${API_PORT:-8000}:8000"]
+    depends_on: [postgres, redis, neo4j]
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_BASE_URL: http://localhost:${API_PORT:-8000}
+    ports: ["5173:5173"]
+    depends_on: [api]
+volumes:
+  postgres-data:
+  redis-data:
+  neo4j-data:
